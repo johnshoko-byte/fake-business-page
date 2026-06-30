@@ -1,8 +1,9 @@
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
-import { CustomEase } from "gsap/all";
+import { CustomEase } from "gsap/CustomEase";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(CustomEase, SplitText);
+gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
 
 CustomEase.create("hop", "0.8, 0, 0.2, 1");
 CustomEase.create("hop2", "0.9, 0, 0.1, 1");
@@ -258,7 +259,38 @@ tl.to(
     },
     5.35
 );
+gsap.set(".features-section .info, .features-section .stat, .features-section .card", {
+    autoAlpha: 0,
+    y: 40,
+});
 
+gsap.timeline({
+    scrollTrigger: {
+        trigger: ".features-section",
+        start: "top 72%",
+        once: true,
+    },
+})
+    .to(".features-section .info", {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+    })
+    .to(".features-section .stat", {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: 0.12,
+    }, "-=0.35")
+    .to(".features-section .card", {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.14,
+    }, "-=0.35");
 // Play only after page assets are loaded.
 // This helps prevent image-size snapping.
 if (document.readyState === "complete") {
