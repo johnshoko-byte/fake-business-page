@@ -304,3 +304,146 @@ if (document.readyState === "complete") {
         { once: true }
     );
 }
+const destinations = [
+    {
+        name: "Cape Town",
+        province: "Western Cape",
+        description: "Coastlines, Table Mountain, food markets, and iconic city views.",
+        image: "img/cape-town.jpg",
+        price: "From R4,999",
+        type: "Coastal city",
+        mapX: 18.6,
+        mapY: 94.6,
+    },
+    {
+        name: "Garden Route",
+        province: "Western Cape",
+        description: "Forests, lagoons, beaches, and one of South Africa’s best road trips.",
+        image: "img/garden-route.jpg",
+        price: "From R4,299",
+        type: "Road trip",
+        mapX: 32.8,
+        mapY: 93.7,
+    },
+    {
+        name: "Durban",
+        province: "KwaZulu-Natal",
+        description: "Warm beaches, Indian Ocean views, and vibrant local culture.",
+        image: "img/durban.jpg",
+        price: "From R3,299",
+        type: "Beach city",
+        mapX: 83.1,
+        mapY: 61.6,
+    },
+    {
+        name: "Drakensberg",
+        province: "KwaZulu-Natal",
+        description: "Mountain hikes, waterfalls, fresh air, and peaceful valleys.",
+        image: "img/drakensberg.jpg",
+        price: "From R3,499",
+        type: "Mountain escape",
+        mapX: 79.9,
+        mapY: 46.3,
+    },
+    {
+        name: "Kruger National Park",
+        province: "Mpumalanga",
+        description: "Wildlife drives, bush lodges, and unforgettable safari routes.",
+        image: "img/kruger.jpg",
+        price: "From R5,999",
+        type: "Safari",
+        mapX: 92.1,
+        mapY: 18.4,
+    },
+    {
+        name: "Johannesburg",
+        province: "Gauteng",
+        description: "Museums, nightlife, food spots, and urban South African culture.",
+        image: "img/johannesburg.jpg",
+        price: "From R2,999",
+        type: "City break",
+        mapX: 69.2,
+        mapY: 32.8,
+    },
+];
+
+const destinationCards = document.querySelector("#destinationCards");
+const nextDestinationBtn = document.querySelector(".destination-arrow.next");
+const prevDestinationBtn = document.querySelector(".destination-arrow.prev");
+const mapMarker = document.querySelector(".map-marker");
+const activeDestinationName = document.querySelector("#activeDestinationName");
+
+let currentDestinationIndex = 0;
+
+function getVisibleDestinations() {
+    const visible = [];
+
+    for (let i = 0; i < 3; i++) {
+        const index = (currentDestinationIndex + i) % destinations.length;
+        visible.push(destinations[index]);
+    }
+
+    return visible;
+}
+
+function renderDestinations(direction = "next") {
+    const visibleDestinations = getVisibleDestinations();
+    const activeDestination = visibleDestinations[0];
+
+    activeDestinationName.textContent = activeDestination.name;
+
+    mapMarker.style.left = `${activeDestination.mapX}%`;
+    mapMarker.style.top = `${activeDestination.mapY}%`;
+
+    destinationCards.innerHTML = visibleDestinations
+        .map((destination) => {
+            return `
+                <article class="destination-card">
+                    <img src="${destination.image}" alt="${destination.name}">
+                    <div class="destination-card-content">
+                        <h3>${destination.name}</h3>
+                        <p>${destination.description}</p>
+                        <div class="destination-meta">
+                            <span>${destination.province}</span>
+                            <span>${destination.type}</span>
+                            <span>${destination.price}</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        })
+        .join("");
+
+    if (typeof gsap !== "undefined") {
+        gsap.fromTo(
+            ".destination-card",
+            {
+                autoAlpha: 0,
+                x: direction === "next" ? 60 : -60,
+            },
+            {
+                autoAlpha: 1,
+                x: 0,
+                duration: 0.7,
+                ease: "power3.out",
+                stagger: 0.12,
+                clearProps: "transform",
+            }
+        );
+    }
+}
+
+nextDestinationBtn.addEventListener("click", () => {
+    currentDestinationIndex = (currentDestinationIndex + 1) % destinations.length;
+    renderDestinations("next");
+});
+
+prevDestinationBtn.addEventListener("click", () => {
+    currentDestinationIndex =
+        (currentDestinationIndex - 1 + destinations.length) % destinations.length;
+
+    renderDestinations("prev");
+});
+
+renderDestinations();
+const mapInner = document.querySelector(".sa-map-inner");

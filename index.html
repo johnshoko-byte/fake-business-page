@@ -143,6 +143,59 @@
                 </div>
             </div>
         </section>
+        <section class="destinations-section">
+            <div class="destinations-map-panel">
+                <div class="section-kicker">Explore by province</div>
+                <h2>Find your next South African escape</h2>
+                <p>
+                    Browse curated destinations across South Africa. Use the arrows to preview locations and see where
+                    they are on the map.
+                </p>
+
+                <div class="sa-map">
+                    <div class="sa-map-inner">
+                        <img src="img/south-africa-map.png" alt="Map of South Africa">
+
+                        <div class="map-marker" aria-hidden="true">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="active-location">
+                    <span class="active-label">Now viewing</span>
+                    <strong id="activeDestinationName">Cape Town</strong>
+                </div>
+            </div>
+
+            <div class="destinations-content">
+                <div class="destinations-top">
+                    <div class="destinations-heading">
+                        <div class="section-kicker">Top destinations</div>
+
+                        <div class="popular-title-row">
+                            <h2>Popular trips</h2>
+
+                            <span class="route-accent" aria-hidden="true">
+                                <span class="route-start"></span>
+                                <span class="route-target"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="destination-arrows">
+                        <button class="destination-arrow prev" type="button" aria-label="Previous destination">
+                            &#8592;
+                        </button>
+                        <button class="destination-arrow next" type="button" aria-label="Next destination">
+                            &#8594;
+                        </button>
+                    </div>
+                </div>
+
+                <div class="destination-cards" id="destinationCards"></div>
+            </div>
+        </section>
     </main>
 
     <script type="module" src="script.js"></script>
